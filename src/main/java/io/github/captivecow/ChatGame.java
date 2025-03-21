@@ -6,7 +6,7 @@ public class ChatGame extends Game {
 
     ChatScreen screen;
 
-    public ChatGame(){
+    public ChatGame() {
         screen = new ChatScreen();
     }
 
