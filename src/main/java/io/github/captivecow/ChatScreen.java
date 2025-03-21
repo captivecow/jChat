@@ -2,26 +2,25 @@ package io.github.captivecow;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 public class ChatScreen implements Screen {
 
     private Stage stage;
-    private TextButton.TextButtonStyle buttonStyle;
     private Skin skin;
-    private TextButton textButton;
-    private Table table;
-    private Label inputLabel;
-    private TextField nameText;
-
+    private Table layout;
+    private TextField inputChatText;
+    private Table chatTable;
+    private ScrollPane chatTablePane;
+    private Table userTable;
+    private ScrollPane userTablePane;
+    private Label usernameLabel;
+    private Table bottomLayout;
+    private TextButton enterButton;
 
     @Override
     public void show() {
@@ -30,36 +29,38 @@ public class ChatScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
-        textButton = new TextButton("Click me", buttonStyle);
-        inputLabel = new Label("Input:", skin);
-        nameText = new TextField("", skin);
+        inputChatText = new TextField("Type here", skin);
 
-        table = new Table(skin);
+        layout = new Table(skin);
 
-        table.setFillParent(true);
-        table.setDebug(true);
-        stage.addActor(table);
+        layout.setFillParent(true);
 
-        TextArea area = new TextArea("idk", skin);
-        area.setDisabled(true);
-        area.appendText("\n yoyo");
+        chatTable = new Table();
+        chatTable.align(Align.left);
+        chatTable.bottom();
+        chatTablePane = new ScrollPane(chatTable, skin);
 
-        Label someText = new Label("someText", skin);
+        userTable = new Table();
+        userTable.top();
+        userTablePane = new ScrollPane(userTable, skin);
 
-        Table paneTable = new Table();
-        ScrollPane pane = new ScrollPane(paneTable, skin);
+        bottomLayout = new Table();
+        usernameLabel = new Label("User: ", skin);
+        enterButton = new TextButton("Enter", skin);
+        bottomLayout.add(usernameLabel);
+        bottomLayout.add(inputChatText).expandX().fill();
+        bottomLayout.add(enterButton);
 
-        paneTable.align(Align.left);
-        paneTable.add(someText);
-        paneTable.bottom();
+        layout.add(chatTablePane).expand().fill().pad(0.0f, 0.0f, 0.0f, 5.0f)
+                .prefWidth(stage.getViewport().getScreenWidth() * .7f);
+        layout.add(userTablePane).expand().fill().pad(0.0f, 0.0f, 0.0f, 0.0f)
+                .prefWidth(stage.getViewport().getScreenWidth() * .1f);
 
-        table.add(pane).expand().fill().pad(10.0f);
-        table.row();
-        table.add(nameText).expandX().fillX().pad(10.0f);
-        table.bottom();
+        layout.row();
+        layout.add(bottomLayout).colspan(2).expandX().fill().pad(10.0f);
+        layout.bottom();
 
-
+        stage.addActor(layout);
     }
 
     @Override
@@ -92,5 +93,6 @@ public class ChatScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
     }
 }
