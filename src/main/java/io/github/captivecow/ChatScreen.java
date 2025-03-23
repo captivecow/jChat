@@ -21,6 +21,7 @@ public class ChatScreen implements Screen {
     private Label usernameLabel;
     private Table bottomLayout;
     private TextButton enterButton;
+    private String username;
 
     @Override
     public void show() {
@@ -29,7 +30,7 @@ public class ChatScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        inputChatText = new TextField("Type here", skin);
+        inputChatText = new TextField("", skin);
 
         layout = new Table(skin);
 
@@ -45,7 +46,7 @@ public class ChatScreen implements Screen {
         userTablePane = new ScrollPane(userTable, skin);
 
         bottomLayout = new Table();
-        usernameLabel = new Label("User: ", skin);
+        usernameLabel = new Label(username + ": ", skin);
         enterButton = new TextButton("Enter", skin);
         bottomLayout.add(usernameLabel);
         bottomLayout.add(inputChatText).expandX().fill();
@@ -73,6 +74,10 @@ public class ChatScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     @Override
