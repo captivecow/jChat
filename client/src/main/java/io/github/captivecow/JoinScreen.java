@@ -19,7 +19,7 @@ public class JoinScreen implements Screen {
     private TextButton connect;
     private final ChatGame game;
 
-    public JoinScreen(ChatGame game){
+    public JoinScreen(ChatGame game) {
         this.game = game;
     }
 
@@ -36,11 +36,12 @@ public class JoinScreen implements Screen {
         usernameLabel = new Label("Username:", skin);
         usernameInput = new TextField("", skin);
         connect = new TextButton("Connect", skin);
-        connect.addListener(new InputListener(){
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+        connect.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 game.getChatScreen().setUsername(usernameInput.getText());
                 game.setScreen(game.getChatScreen());
             }
