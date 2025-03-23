@@ -4,14 +4,28 @@ import com.badlogic.gdx.Game;
 
 public class ChatGame extends Game {
 
-    ChatScreen screen;
+    private final ChatScreen chatScreen;
+    private final JoinScreen joinScreen;
+    private String username;
 
     public ChatGame() {
-        screen = new ChatScreen();
+        chatScreen = new ChatScreen();
+        joinScreen = new JoinScreen(this);
     }
 
     @Override
     public void create() {
-        setScreen(screen);
+        setScreen(joinScreen);
+    }
+
+    public ChatScreen getChatScreen() {
+        return chatScreen;
+    }
+
+    @Override
+    public void dispose(){
+        System.out.println("Main game dispose");
+        chatScreen.dispose();
+        joinScreen.dispose();
     }
 }
