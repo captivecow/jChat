@@ -76,7 +76,7 @@ public class ChatScreen implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
 
