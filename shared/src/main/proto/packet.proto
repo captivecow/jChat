@@ -1,0 +1,7 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package io.github.captivecow.shared;
+
+message Connect {
+  int32 id = 1;
+}
