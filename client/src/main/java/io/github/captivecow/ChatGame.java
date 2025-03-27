@@ -6,11 +6,13 @@ public class ChatGame extends Game {
 
     private final ChatScreen chatScreen;
     private final JoinScreen joinScreen;
+    private ChatClient client;
     private String username;
 
     public ChatGame() {
+        client = new ChatClient();
         chatScreen = new ChatScreen();
-        joinScreen = new JoinScreen(this);
+        joinScreen = new JoinScreen(this, client);
     }
 
     @Override
