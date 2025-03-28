@@ -7,12 +7,12 @@ import io.netty.util.ReferenceCountUtil;
 
 public class ChatEncoder extends ChannelOutboundHandlerAdapter {
     @Override
-    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise){
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
         ByteBufAllocator allocator = ctx.alloc();
         ByteBuf message = allocator.directBuffer().writeBytes((byte[]) msg);
         ChannelFuture f = ctx.writeAndFlush(message);
         f.addListener((ChannelFutureListener) channelFuture -> {
-            if(channelFuture.isSuccess()){
+            if (channelFuture.isSuccess()) {
                 System.out.println("Successful write to server..");
             } else {
                 System.out.println(channelFuture.cause());

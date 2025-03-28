@@ -5,10 +5,7 @@ import io.github.captivecow.shared.Connect;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.Constant;
 import io.netty.util.ReferenceCountUtil;
-
-import java.util.Arrays;
 
 public class ChatDecoder extends ChannelInboundHandlerAdapter {
     @Override

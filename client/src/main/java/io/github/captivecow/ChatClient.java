@@ -18,18 +18,18 @@ public class ChatClient {
     private ChatEncoder chatEncoder;
     private Channel clientChannel;
 
-    public ChatClient(){
+    public ChatClient() {
         group = new NioEventLoopGroup(1);
         bootstrap = new Bootstrap();
         chatEncoder = new ChatEncoder();
     }
 
-    public void connect(){
+    public void connect() {
         System.out.println("Connecting..");
         bootstrap.group(group);
         bootstrap.channel(NioSocketChannel.class);
         bootstrap.remoteAddress(new InetSocketAddress(HOST, PORT));
-        bootstrap.handler(new ChannelInitializer<SocketChannel>(){
+        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel socketChannel) {
                 socketChannel.pipeline().addLast(chatEncoder);
@@ -38,7 +38,7 @@ public class ChatClient {
         try {
             ChannelFuture f = bootstrap.connect().sync();
             f.addListener((ChannelFutureListener) channelFuture -> {
-                if(channelFuture.isSuccess()){
+                if (channelFuture.isSuccess()) {
                     clientChannel = channelFuture.channel();
                     System.out.println("Success! Saved client channel");
                     Connect connect = Connect.newBuilder().setId(99).build();

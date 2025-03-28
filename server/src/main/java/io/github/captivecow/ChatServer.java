@@ -18,13 +18,13 @@ public class ChatServer {
     private EventLoopGroup workerGroup;
     private ServerBootstrap bootstrap;
 
-    public ChatServer(){
+    public ChatServer() {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup(2);
         bootstrap = new ServerBootstrap();
     }
 
-    public void start(){
+    public void start() {
         bootstrap.group(bossGroup, workerGroup);
         bootstrap.channel(NioServerSocketChannel.class);
         bootstrap.localAddress(new InetSocketAddress(PORT));
@@ -38,7 +38,7 @@ public class ChatServer {
         try {
             ChannelFuture f = bootstrap.bind().sync();
             f.addListener((ChannelFutureListener) channelFuture -> {
-                if(channelFuture.isSuccess()){
+                if (channelFuture.isSuccess()) {
                     System.out.println("Server started on port: " + PORT);
                 }
             });

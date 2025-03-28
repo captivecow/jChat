@@ -89,10 +89,10 @@ public class JoinScreen implements Screen {
 
     @Override
     public void dispose() {
-        if(Objects.nonNull(stage)){
+        if (Objects.nonNull(stage)) {
             stage.dispose();
         }
-        if(Objects.nonNull(skin)){
+        if (Objects.nonNull(skin)) {
             skin.dispose();
 
         }
