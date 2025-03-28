@@ -41,16 +41,12 @@ public class ChatClient {
                 if(channelFuture.isSuccess()){
                     clientChannel = channelFuture.channel();
                     System.out.println("Success! Saved client channel");
-                    Connect connect = Connect.newBuilder().setId(1).build();
+                    Connect connect = Connect.newBuilder().setId(99).build();
                     clientChannel.write(connect.toByteArray());
                 }
             });
-            f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
-            System.out.println("Shutting down..?");
-            group.shutdownGracefully();
         }
     }
 }

@@ -2,6 +2,7 @@ package io.github.captivecow;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -36,13 +37,13 @@ public class ChatServer {
 
         try {
             ChannelFuture f = bootstrap.bind().sync();
-            f.channel().closeFuture().sync();
+            f.addListener((ChannelFutureListener) channelFuture -> {
+                if(channelFuture.isSuccess()){
+                    System.out.println("Server started on port: " + PORT);
+                }
+            });
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
-            System.out.println("Server shutdown?");
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
         }
     }
 }

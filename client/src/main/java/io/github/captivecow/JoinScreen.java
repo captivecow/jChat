@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.concurrent.Executors;
-
 public class JoinScreen implements Screen {
     private Stage stage;
     private Skin skin;
@@ -47,7 +45,7 @@ public class JoinScreen implements Screen {
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 game.getChatScreen().setUsername(usernameInput.getText());
-                Executors.newSingleThreadExecutor().execute(client::connect);
+                client.connect();
             }
         });
 
