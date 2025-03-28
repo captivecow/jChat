@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.Objects;
+
 public class JoinScreen implements Screen {
     private Stage stage;
     private Skin skin;
@@ -87,8 +89,12 @@ public class JoinScreen implements Screen {
 
     @Override
     public void dispose() {
-        System.out.println("Join screen dispose");
-        stage.dispose();
-        skin.dispose();
+        if(Objects.nonNull(stage)){
+            stage.dispose();
+        }
+        if(Objects.nonNull(skin)){
+            skin.dispose();
+
+        }
     }
 }

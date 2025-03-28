@@ -26,7 +26,6 @@ public class ChatGame extends Game {
 
     @Override
     public void dispose() {
-        System.out.println("Main game dispose");
         chatScreen.dispose();
         joinScreen.dispose();
     }
