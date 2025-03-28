@@ -8,6 +8,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.Objects;
 
 public class ChatClient {
     private final String HOST = "localhost";
@@ -26,16 +27,16 @@ public class ChatClient {
 
     public void connect() {
         System.out.println("Connecting..");
-        bootstrap.group(group);
-        bootstrap.channel(NioSocketChannel.class);
-        bootstrap.remoteAddress(new InetSocketAddress(HOST, PORT));
-        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel socketChannel) {
-                socketChannel.pipeline().addLast(chatEncoder);
-            }
-        });
         try {
+            bootstrap.group(group);
+            bootstrap.channel(NioSocketChannel.class);
+            bootstrap.remoteAddress(new InetSocketAddress(HOST, PORT));
+            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel socketChannel) {
+                    socketChannel.pipeline().addLast(chatEncoder);
+                }
+            });
             ChannelFuture f = bootstrap.connect().sync();
             f.addListener((ChannelFutureListener) channelFuture -> {
                 if (channelFuture.isSuccess()) {
@@ -45,8 +46,16 @@ public class ChatClient {
                     clientChannel.write(connect.toByteArray());
                 }
             });
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
+            disconnect();
             throw new RuntimeException(e);
+        }
+    }
+
+    public void disconnect(){
+        if(Objects.nonNull(clientChannel) && clientChannel.isActive()){
+            clientChannel.close().awaitUninterruptibly();
+            group.shutdownGracefully();
         }
     }
 }

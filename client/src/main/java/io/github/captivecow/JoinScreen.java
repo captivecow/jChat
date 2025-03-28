@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -46,8 +47,10 @@ public class JoinScreen implements Screen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.getChatScreen().setUsername(usernameInput.getText());
                 client.connect();
+                usernameInput.setDisabled(true);
+                connect.setTouchable(Touchable.disabled);
+                game.getChatScreen().setUsername(usernameInput.getText());
             }
         });
 
@@ -94,7 +97,6 @@ public class JoinScreen implements Screen {
         }
         if (Objects.nonNull(skin)) {
             skin.dispose();
-
         }
     }
 }
