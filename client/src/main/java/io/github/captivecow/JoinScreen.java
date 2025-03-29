@@ -47,7 +47,7 @@ public class JoinScreen implements Screen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                client.connect();
+                client.connect(usernameInput.getText());
                 usernameInput.setDisabled(true);
                 connect.setTouchable(Touchable.disabled);
                 game.getChatScreen().setUsername(usernameInput.getText());

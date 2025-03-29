@@ -2,7 +2,30 @@ syntax = "proto3";
 option java_multiple_files = true;
 package io.github.captivecow.shared;
 
+message Connect {
+  string username = 1;
+}
+
+message Chat {
+  string chatMessage = 1;
+}
+
+message Users {
+  repeated string user = 1;
+}
+
 message ClientMessage {
   int32 id = 1;
-  string chatMessage = 2;
+  oneof messageType {
+    Connect connect = 2;
+    Chat chat = 3;
+  }
+}
+
+message ServerMessage {
+  int32 id = 1;
+  oneof messageType {
+    Users users = 2;
+    Chat chat = 3;
+  }
 }

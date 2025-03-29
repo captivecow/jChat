@@ -1,6 +1,7 @@
 package io.github.captivecow;
 
 import io.github.captivecow.shared.ClientMessage;
+import io.github.captivecow.shared.Connect;
 import io.github.captivecow.shared.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -26,7 +27,7 @@ public class ChatClient {
         chatEncoder = new ChatEncoder();
     }
 
-    public void connect() {
+    public void connect(String username) {
         System.out.println("Connecting..");
         try {
             bootstrap.group(group);
@@ -36,14 +37,19 @@ public class ChatClient {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) {
                     socketChannel.pipeline().addLast(chatEncoder);
+                    socketChannel.pipeline().addLast(new ChatDecoder());
                 }
             });
             ChannelFuture f = bootstrap.connect().sync();
             f.addListener((ChannelFutureListener) channelFuture -> {
                 if (channelFuture.isSuccess()) {
                     clientChannel = channelFuture.channel();
-                    System.out.println("Success! Saved client channel");
-                    ClientMessage message = ClientMessage.newBuilder().setId(Message.CONNECT.getId()).build();
+                    Connect connect = Connect.newBuilder()
+                            .setUsername(username)
+                            .build();
+                    ClientMessage message = ClientMessage.newBuilder()
+                            .setConnect(connect)
+                            .setId(Message.CONNECT.getId()).build();
                     clientChannel.write(message.toByteArray());
                 }
             });
