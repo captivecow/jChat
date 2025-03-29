@@ -1,6 +1,7 @@
 package io.github.captivecow;
 
-import io.github.captivecow.shared.Connect;
+import io.github.captivecow.shared.ClientMessage;
+import io.github.captivecow.shared.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -42,8 +43,8 @@ public class ChatClient {
                 if (channelFuture.isSuccess()) {
                     clientChannel = channelFuture.channel();
                     System.out.println("Success! Saved client channel");
-                    Connect connect = Connect.newBuilder().setId(99).build();
-                    clientChannel.write(connect.toByteArray());
+                    ClientMessage message = ClientMessage.newBuilder().setId(Message.CONNECT.getId()).build();
+                    clientChannel.write(message.toByteArray());
                 }
             });
         } catch (Exception e) {

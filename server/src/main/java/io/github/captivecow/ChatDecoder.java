@@ -1,7 +1,7 @@
 package io.github.captivecow;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import io.github.captivecow.shared.Connect;
+import io.github.captivecow.shared.ClientMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -16,8 +16,8 @@ public class ChatDecoder extends ChannelInboundHandlerAdapter {
             byte[] array = new byte[length];
             in.getBytes(in.readerIndex(), array);
 
-            Connect connect = Connect.parseFrom(array);
-
+            ClientMessage message = ClientMessage.parseFrom(array);
+            System.out.println(message.toString());
         } finally {
             ReferenceCountUtil.release(msg);
         }

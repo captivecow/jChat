@@ -2,6 +2,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package io.github.captivecow.shared;
 
-message Connect {
+message ClientMessage {
   int32 id = 1;
+  string chatMessage = 2;
 }
