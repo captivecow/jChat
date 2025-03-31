@@ -12,7 +12,7 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
     }
     @Override
     protected void initChannel(SocketChannel socketChannel) {
-        socketChannel.pipeline().addLast(new ChatEncoder());
-        socketChannel.pipeline().addLast(new ChatDecoder(server));
+        socketChannel.pipeline().addLast(new ServerChatEncoder());
+        socketChannel.pipeline().addLast(new ServerChatDecoder(server));
     }
 }

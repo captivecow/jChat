@@ -8,6 +8,13 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 public class ChatDecoder extends ChannelInboundHandlerAdapter {
+
+    private final ChatClient client;
+
+    public ChatDecoder(ChatClient client){
+        this.client = client;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws InvalidProtocolBufferException {
         try {
@@ -16,7 +23,7 @@ public class ChatDecoder extends ChannelInboundHandlerAdapter {
             byte[] array = new byte[length];
             in.getBytes(in.readerIndex(), array);
             ServerMessage message = ServerMessage.parseFrom(array);
-            System.out.println(message);
+            client.submit(message);
         } finally {
             ReferenceCountUtil.release(msg);
         }

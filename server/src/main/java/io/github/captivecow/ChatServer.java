@@ -7,7 +7,6 @@ import io.github.captivecow.shared.Users;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -23,7 +22,7 @@ public class ChatServer {
     private ServerBootstrap bootstrap;
 
     private ConcurrentHashMap<ChannelId, ConnectedUser> clients;
-    private ChatDecoder decoder;
+    private ServerChatDecoder decoder;
     private final ExecutorService servicePool;
 
 
@@ -33,7 +32,7 @@ public class ChatServer {
         bootstrap = new ServerBootstrap();
         clients = new ConcurrentHashMap<>();
         servicePool = Executors.newFixedThreadPool(1);
-        decoder = new ChatDecoder(this);
+        decoder = new ServerChatDecoder(this);
     }
 
     public void start() {
@@ -58,7 +57,7 @@ public class ChatServer {
     }
 
     public void handleMessage(ClientMessage clientMessage, Channel channel){
-        if (clientMessage.getId() == Message.CONNECT.getId()){
+        if (clientMessage.getId() == Message.CLIENT_CONNECT.getId()){
             ConnectedUser newUser = new ConnectedUser(clientMessage.getConnect().getUsername(), channel);
             clients.put(channel.id(), newUser);
 
@@ -70,7 +69,6 @@ public class ChatServer {
                     .setUsers(users.build())
                     .setId(1)
                     .build();
-            System.out.println("Here now?");
             channel.writeAndFlush(serverMessage.toByteArray());
         }
     }

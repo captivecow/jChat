@@ -104,7 +104,6 @@ public class ChatScreen implements Screen {
         }
         if (Objects.nonNull(skin)) {
             skin.dispose();
-
         }
     }
 }

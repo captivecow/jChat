@@ -7,11 +7,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
-public class ChatDecoder extends ChannelInboundHandlerAdapter {
+public class ServerChatDecoder extends ChannelInboundHandlerAdapter {
 
     private final ChatServer server;
 
-    public ChatDecoder(ChatServer server){
+    public ServerChatDecoder(ChatServer server){
         this.server = server;
     }
     @Override

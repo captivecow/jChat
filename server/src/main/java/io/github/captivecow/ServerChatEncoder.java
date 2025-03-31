@@ -5,10 +5,9 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.util.ReferenceCountUtil;
 
-public class ChatEncoder extends ChannelOutboundHandlerAdapter {
+public class ServerChatEncoder extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-        System.out.println("Got back here?");
         ByteBufAllocator allocator = ctx.alloc();
         ByteBuf message = allocator.directBuffer().writeBytes((byte[]) msg);
         ChannelFuture f = ctx.writeAndFlush(message);
