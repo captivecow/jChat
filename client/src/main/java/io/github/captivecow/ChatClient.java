@@ -1,5 +1,6 @@
 package io.github.captivecow;
 
+import com.badlogic.gdx.Gdx;
 import io.github.captivecow.shared.ClientMessage;
 import io.github.captivecow.shared.Connect;
 import io.github.captivecow.shared.Message;
@@ -24,13 +25,15 @@ public class ChatClient {
     private ChatEncoder chatEncoder;
     private Channel clientChannel;
     private final ExecutorService clientPool;
+    private final ChatGame game;
 
 
-    public ChatClient() {
+    public ChatClient(ChatGame game) {
         group = new NioEventLoopGroup(1);
         bootstrap = new Bootstrap();
         chatEncoder = new ChatEncoder();
         clientPool = Executors.newFixedThreadPool(1);
+        this.game = game;
     }
 
     public void connect(String username) {
@@ -87,6 +90,8 @@ public class ChatClient {
 
     public void handleMessage(ServerMessage message){
         System.out.println(Thread.currentThread().getName());
-        System.out.println(message);
+        if(message.getId() == Message.SERVER_CONNECT.getId()){
+            Gdx.app.postRunnable(() -> game.addInitialUsers(message.getUsers()));
+        }
     }
 }

@@ -67,7 +67,7 @@ public class ChatServer {
             }
             ServerMessage serverMessage = ServerMessage.newBuilder()
                     .setUsers(users.build())
-                    .setId(1)
+                    .setId(Message.SERVER_CONNECT.getId())
                     .build();
             channel.writeAndFlush(serverMessage.toByteArray());
         }

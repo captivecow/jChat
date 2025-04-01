@@ -1,6 +1,8 @@
 package io.github.captivecow;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import io.github.captivecow.shared.Users;
 
 public class ChatGame extends Game {
 
@@ -10,7 +12,7 @@ public class ChatGame extends Game {
     private String username;
 
     public ChatGame() {
-        client = new ChatClient();
+        client = new ChatClient(this);
         chatScreen = new ChatScreen();
         joinScreen = new JoinScreen(this, client);
     }
@@ -29,5 +31,14 @@ public class ChatGame extends Game {
         client.disconnect();
         chatScreen.dispose();
         joinScreen.dispose();
+    }
+
+    public void addInitialUsers(Users users){
+        setScreen(chatScreen);
+        Table userTable = chatScreen.getUserTable();
+        for(int i = 0; i<users.getUserCount(); i++){
+            userTable.add(users.getUser(i));
+            userTable.row();
+        }
     }
 }

@@ -38,12 +38,12 @@ public class ChatScreen implements Screen {
 
         layout.setFillParent(true);
 
-        chatTable = new Table();
+        chatTable = new Table(skin);
         chatTable.align(Align.left);
         chatTable.bottom();
         chatTablePane = new ScrollPane(chatTable, skin);
 
-        userTable = new Table();
+        userTable = new Table(skin);
         userTable.top();
         userTablePane = new ScrollPane(userTable, skin);
 
@@ -105,5 +105,9 @@ public class ChatScreen implements Screen {
         if (Objects.nonNull(skin)) {
             skin.dispose();
         }
+    }
+
+    public Table getUserTable(){
+        return userTable;
     }
 }
