@@ -6,6 +6,10 @@ message Connect {
   string username = 1;
 }
 
+message Disconnect {
+  string connectionId = 1;
+}
+
 message Chat {
   string chatMessage = 1;
 }
@@ -14,11 +18,16 @@ message Users {
   repeated string user = 1;
 }
 
+message ServerDisconnect {
+  string username = 1;
+}
+
 message ClientMessage {
   int32 id = 1;
   oneof messageType {
     Connect connect = 2;
     Chat chat = 3;
+    Disconnect disconnect = 4;
   }
 }
 
@@ -27,5 +36,6 @@ message ServerMessage {
   oneof messageType {
     Users users = 2;
     Chat chat = 3;
+    ServerDisconnect disconnect = 4;
   }
 }

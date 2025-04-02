@@ -2,6 +2,8 @@ package io.github.captivecow;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.github.captivecow.shared.ClientMessage;
+import io.github.captivecow.shared.Disconnect;
+import io.github.captivecow.shared.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -27,6 +29,21 @@ public class ServerChatDecoder extends ChannelInboundHandlerAdapter {
             ReferenceCountUtil.release(msg);
         }
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        Disconnect disconnect = Disconnect
+                .newBuilder()
+                .setConnectionId(ctx.channel().id().asLongText())
+                .build();
+        ClientMessage message = ClientMessage
+                .newBuilder()
+                .setId(Message.CLIENT_DISCONNECT.getId())
+                .setDisconnect(disconnect)
+                .build();
+        server.submit(message);
+    }
+
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

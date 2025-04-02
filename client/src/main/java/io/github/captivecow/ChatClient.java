@@ -89,9 +89,11 @@ public class ChatClient {
     }
 
     public void handleMessage(ServerMessage message){
-        System.out.println(Thread.currentThread().getName());
+//        System.out.println(Thread.currentThread().getName());
         if(message.getId() == Message.SERVER_CONNECT.getId()){
             Gdx.app.postRunnable(() -> game.addInitialUsers(message.getUsers()));
+        } else if (message.getId() == Message.SERVER_DISCONNECT.getId()) {
+            Gdx.app.postRunnable(() -> game.removeUser(message.getDisconnect().getUsername()));
         }
     }
 }
