@@ -19,7 +19,6 @@ public class ChatServer {
     private ServerBootstrap bootstrap;
 
     private ConcurrentHashMap<String, ConnectedUser> clients;
-    private ServerChatDecoder decoder;
     private final ExecutorService servicePool;
 
 
@@ -29,7 +28,6 @@ public class ChatServer {
         bootstrap = new ServerBootstrap();
         clients = new ConcurrentHashMap<>();
         servicePool = Executors.newFixedThreadPool(1);
-        decoder = new ServerChatDecoder(this);
     }
 
     public void start() {
@@ -70,6 +68,25 @@ public class ChatServer {
                     .setId(Message.SERVER_CONNECT.getId())
                     .build();
             channel.writeAndFlush(serverMessage.toByteArray());
+
+            ServerJoin serverJoin = ServerJoin
+                    .newBuilder()
+                    .setUsername(clientMessage.getConnect().getUsername())
+                    .build();
+
+            ServerMessage joinServerMessage = ServerMessage
+                    .newBuilder()
+                    .setId(Message.SERVER_JOIN.getId())
+                    .setJoin(serverJoin)
+                    .build();
+
+            byte[] joinMessageBytes = joinServerMessage.toByteArray();
+
+            for(ConnectedUser user: clients.values()){
+                if(user.channel().id() != channel.id()){
+                    user.channel().writeAndFlush(joinMessageBytes);
+                }
+            }
         }
     }
 

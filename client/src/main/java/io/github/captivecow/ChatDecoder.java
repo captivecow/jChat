@@ -23,7 +23,6 @@ public class ChatDecoder extends ChannelInboundHandlerAdapter {
             byte[] array = new byte[length];
             in.getBytes(in.readerIndex(), array);
             ServerMessage message = ServerMessage.parseFrom(array);
-            System.out.println(message);
             client.submit(message);
         } finally {
             ReferenceCountUtil.release(msg);

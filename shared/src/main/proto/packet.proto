@@ -22,6 +22,10 @@ message ServerDisconnect {
   string username = 1;
 }
 
+message ServerJoin {
+  string username = 1;
+}
+
 message ClientMessage {
   int32 id = 1;
   oneof messageType {
@@ -37,5 +41,6 @@ message ServerMessage {
     Users users = 2;
     Chat chat = 3;
     ServerDisconnect disconnect = 4;
+    ServerJoin join = 5;
   }
 }

@@ -47,6 +47,12 @@ public class ChatGame extends Game {
         }
     }
 
+    public void addJoinedUser(String username){
+        Table userTable = chatScreen.getUserTable();
+        userTable.add(username);
+        userTable.row();
+    }
+
     public void removeUser(String username){
         Table userTable = chatScreen.getUserTable();
         Array<Actor> actors = userTable.getChildren();

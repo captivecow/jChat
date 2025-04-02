@@ -3,9 +3,10 @@ package io.github.captivecow.shared;
 public enum Message {
     CLIENT_CONNECT(1),
     SERVER_CONNECT(2),
-    CHAT(3),
-    CLIENT_DISCONNECT(4),
-    SERVER_DISCONNECT(5);
+    SERVER_JOIN(3),
+    CHAT(4),
+    CLIENT_DISCONNECT(5),
+    SERVER_DISCONNECT(6);
 
     private final int id;
 

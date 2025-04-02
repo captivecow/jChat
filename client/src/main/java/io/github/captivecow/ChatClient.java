@@ -94,6 +94,8 @@ public class ChatClient {
             Gdx.app.postRunnable(() -> game.addInitialUsers(message.getUsers()));
         } else if (message.getId() == Message.SERVER_DISCONNECT.getId()) {
             Gdx.app.postRunnable(() -> game.removeUser(message.getDisconnect().getUsername()));
+        } else if(message.getId() == Message.SERVER_JOIN.getId()){
+            Gdx.app.postRunnable(() -> game.addJoinedUser(message.getJoin().getUsername()));
         }
     }
 }
